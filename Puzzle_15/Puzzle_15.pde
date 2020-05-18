@@ -1,13 +1,13 @@
 import java.io.File;
 
-int puzzleSideSquare = 5;
+int puzzleSideSquare = 6;
 ArrayList<Square> puzzle;
 PImage image;
 int xShift;
 int yShift;
-int toScramble = 500 * puzzleSideSquare;
+int toScramble = 250 * puzzleSideSquare * puzzleSideSquare;
 
-boolean offline = true;
+boolean offline = false;
 
 void settings() {
   if (offline) {
@@ -90,10 +90,10 @@ void setup() {
   }
   puzzle.remove(puzzle.size() - 1);
 
-  while (toScramble > 0) {
-    scramble();
-    toScramble--;
-  }
+  //while (toScramble > 0) {
+  //  scramble();
+  //  toScramble--;
+  //}
 }
 
 void draw() {
@@ -104,11 +104,12 @@ void draw() {
   for(Square s : puzzle) {
     s.show();
   }
-
-  // if (toScramble > 0) {
-  //   scramble(); 
-  //   toScramble--;
-  // }
+  for (int k = 0; k < 100; k++) { 
+   if (toScramble > 0) {
+     scramble(); 
+     toScramble--;
+   }
+  }
 }
 
 int index(int x, int y) {
