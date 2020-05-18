@@ -1,0 +1,57 @@
+PImage img;
+int possibleColors = 4;
+
+void setup() {
+    size(500, 200);
+    img = loadImage("gatto.png");
+    // img.filter(GRAY);
+    image(img, 0, 0);
+}
+
+void draw() {
+    img.loadPixels();
+    for (int y = 0; y < img.height-1; y++) {
+        for (int x = 0; x < img.width-1; x++) {
+            color oldpixel = img.pixels[map(x, y)];
+            color newpixel = closestColor(oldpixel);
+            img.pixels[map(x, y)] = newpixel;
+
+            float[] quant_error = {red(oldpixel)-red(newpixel), green(oldpixel)-green(newpixel), blue(oldpixel)-blue(newpixel)};
+            img.pixels[map(x+1, y  )] = addError(img.pixels[map(x+1, y  )], multError(quant_error, (7 / 16)));
+            img.pixels[map(x-1, y+1)] = addError(img.pixels[map(x-1, y+1)], multError(quant_error, (3 / 16)));
+            img.pixels[map(x  , y+1)] = addError(img.pixels[map(x  , y+1)], multError(quant_error, (5 / 16)));
+            img.pixels[map(x+1, y+1)] = addError(img.pixels[map(x+1, y+1)], multError(quant_error, (1 / 16)));
+        }
+    }
+    img.updatePixels();
+    // save("scaledGatto.jpg");
+    image(img, 250, 0);
+    noLoop();
+}
+
+int map(int x ,int y) {
+    return y*img.width+x;
+}
+
+color closestColor(color old) {
+    return color(scaleColor(red(old)), scaleColor(green(old)), scaleColor(blue(old)));
+}
+
+int scaleColor(float i) {
+    return int(possibleColors * i / 255) * (255 / possibleColors);
+}
+
+float[] multError(float[] err, float scale) {
+    float[] v = new float[err.length];
+    for (int i = 0; i < err.length; i++) {
+        v[i] = err[i] * scale;
+    }
+    return v;
+}
+
+color addError(color c, float[] err) {
+    float r = constrain(int(red(c) + err[0]), 0, 255);
+    float g = constrain(int(green(c) + err[1]), 0, 255);
+    float b = constrain(int(blue(c) + err[2]), 0, 255);
+    return color(r, g, b);
+}
