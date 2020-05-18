@@ -7,7 +7,7 @@ int xShift;
 int yShift;
 int toScramble = 500 * puzzleSideSquare;
 
-boolean offline = false;
+boolean offline = true;
 
 void settings() {
   if (offline) {
