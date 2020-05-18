@@ -1,0 +1,6 @@
+public abstract class Obstacle {
+
+    public Obstacle() {}
+
+    public void show() {}
+}
