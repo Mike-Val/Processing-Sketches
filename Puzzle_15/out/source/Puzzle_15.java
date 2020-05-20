@@ -18,27 +18,28 @@ public class Puzzle_15 extends PApplet {
 
 
 
-int puzzleSideSquare = 5;
+int puzzleSideSquare = 8;
 ArrayList<Square> puzzle;
 PImage image;
 int xShift;
 int yShift;
-int toScramble = 500 * puzzleSideSquare;
+int toScramble = 250 * puzzleSideSquare * puzzleSideSquare;
 
-boolean offline = false;
+boolean offline = true;
 
 public void settings() {
-  if (offline) {
-    image = loadImage("scanna.jpg");
-  } else {
-    image = getImg();
-  }
+  image = getImg();
   size(image.width * 2, image.height);
 }
 
 public PImage getImg() {
-  PImage img = download();
+  PImage img = null;
   PImage res = null;
+  if (offline) {
+    img = loadImage(PApplet.parseInt(random(4)) + ".jpg").resize(500, 500);
+  } else {
+    img = download();
+  } 
   while(true) {
     try {
       if (img.width > img.height) {
@@ -108,10 +109,10 @@ public void setup() {
   }
   puzzle.remove(puzzle.size() - 1);
 
-  while (toScramble > 0) {
-    scramble();
-    toScramble--;
-  }
+  //while (toScramble > 0) {
+  //  scramble();
+  //  toScramble--;
+  //}
 }
 
 public void draw() {
@@ -122,11 +123,12 @@ public void draw() {
   for(Square s : puzzle) {
     s.show();
   }
-
-  // if (toScramble > 0) {
-  //   scramble(); 
-  //   toScramble--;
-  // }
+  for (int k = 0; k < 100; k++) { 
+   if (toScramble > 0) {
+     scramble(); 
+     toScramble--;
+   }
+  }
 }
 
 public int index(int x, int y) {

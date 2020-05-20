@@ -1,6 +1,6 @@
 import java.io.File;
 
-int puzzleSideSquare = 6;
+int puzzleSideSquare = 8;
 ArrayList<Square> puzzle;
 PImage image;
 int xShift;
@@ -10,22 +10,25 @@ int toScramble = 250 * puzzleSideSquare * puzzleSideSquare;
 boolean offline = false;
 
 void settings() {
-  if (offline) {
-    image = loadImage("scanna.jpg");
-  } else {
-    image = getImg();
-  }
+  image = getImg();
   size(image.width * 2, image.height);
 }
 
 PImage getImg() {
-  PImage img = download();
+  PImage img = null;
   PImage res = null;
+  if (offline) {
+    int i = int(random(6)+1);
+    img = loadImage(i + ".jpg");
+    res = img;
+  } else {
+    img = download();
+  } 
   while(true) {
     try {
       if (img.width > img.height) {
         res = img.get(int((img.width - img.height) / 2.0), 0, img.height + int((img.width - img.height) / 2.0), img.height);
-      }else if (img.width < img.height) {
+      } else if (img.width < img.height) {
         res = img.get(0, int((img.height - img.width) / 2.0), img.width, img.width + int((img.height - img.width) / 2.0));
       }
       res.resize(500, 500);
@@ -67,8 +70,8 @@ PImage download() {
   StringList output = new StringList();
   StringList errors = new StringList();
   shell(output, errors, "/usr/bin/python3", sketchPath("downloadImg.py"), "<", sketchPath("toDownload.txt"));
-  println("The process returned " + output.toString());
-  println("The errors were " + errors.toString());
+  //println("The process returned " + output.toString());
+  //println("The errors were " + errors.toString());
 
   tdI = sketchFile("downloadedImg.jpg");
   while(!tdI.exists()) {
