@@ -15,8 +15,8 @@ HashMap<Color,String> map = new HashMap<Color,String>();
 File[] image_files;
 int final_resolution = 800;
 PImage original;
-int side = 100;
-int num_images = side*side;
+int side = 14;
+int num_images = side*side < 10000 ? 10000 : side*side;
 PImage[][] images = new PImage[side][side];
 
 void settings() {
@@ -27,14 +27,15 @@ void settings() {
 void setup() {
     image_files = new File(sketchPath() + "/images").listFiles();
     // selectInput("Select a file to process:", "fileSelected");
-    original = loadImage("/Users/mike/Git-Hub/Processing-Sketches/image_grid_puzzle/images/211.jpg");
+    //original = loadImage("/Users/mike/Git-Hub/Processing-Sketches/image_grid_puzzle/images/12201.jpg");
+    original = loadImage("/Users/mike/Desktop/iu.png");
 
     fill(255);
     textAlign(CENTER);
     textSize(32);
-    // while (image_file_index < image_files.length && map.size() < num_images) {
-    //     loadImages();
-    // }
+     while (image_file_index < image_files.length && map.size() < num_images) {
+         loadImages();
+     }
 
     if (original.width > original.height) {
         original.resize(0, height);
@@ -58,7 +59,7 @@ void draw() {
         background(0);
         loadImages();
     } else {
-        for (int i = 0; i < side; i++) {
+        for (int i = 0; i < 1; i++) {
             image(original, 0, 0);
             if (x < side && y < side) {
                 images[x][y] = makeImage(x, y);
