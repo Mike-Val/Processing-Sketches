@@ -7,7 +7,7 @@ int xShift;
 int yShift;
 int toScramble = 250 * puzzleSideSquare * puzzleSideSquare;
 
-boolean offline = true;
+boolean offline = false;
 
 void settings() {
   image = getImg();

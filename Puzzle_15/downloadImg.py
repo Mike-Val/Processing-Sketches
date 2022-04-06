@@ -1,6 +1,4 @@
 import random
-import sys
-sys.path.append("/usr/local/lib/python3.7/site-packages/")
 import requests
 import nekos
 
@@ -19,5 +17,5 @@ while url.split('.')[-1] not in ['jpg', 'jpeg']:
 
 print(url)
 r = requests.get(url, allow_redirects=True)
-open(sys.argv[1].strip()+'downloadedImg.jpg', 'wb').write(r.content)
-# open('/Users/mike/Git-Hub/Processing-Sketches/Puzzle_15/'+'downloadedImg.jpg', 'wb').write(r.content)
+with open('downloadedImg.jpg', 'wb') as f:
+    f.write(r.content)
