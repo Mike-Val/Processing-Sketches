@@ -36,7 +36,7 @@ PImage getImg() {
 PImage download() {
   StringList output = new StringList();
   StringList errors = new StringList();
-  shell(output, errors, "/usr/bin/python3", sketchPath("downloadImg.py"), sketchPath(""));
+  shell(output, errors, "python", sketchPath("downloadImg.py"));
   println("The process returned " + output.toString());
   println("The errors were " + errors.toString());
 
